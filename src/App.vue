@@ -18,11 +18,12 @@ export default {
   },
 
   methods: {
-    ...mapActions("articles", ["fetchTags"])
+    ...mapActions("articles", ["fetchTags", "fetchArticles"])
   },
 
   created() {
     this.fetchTags();
+    this.fetchArticles();
   }
 }
 

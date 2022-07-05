@@ -7,5 +7,13 @@ export default {
 
     setTagsLoaded(state, newTagsLoaded) {
         state.isTagsLoaded = newTagsLoaded;
+    },
+
+    setArticles(state, newArticles) {
+        state.articles = newArticles;
+    },
+
+    setArticlesLoaded(state, newArticlesLoaded) {
+        state.isArticlesLoaded = newArticlesLoaded;
     }
 }
