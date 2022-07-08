@@ -29,7 +29,7 @@
           </div>
 
           <article-list
-          :articles="articles"></article-list>
+              :articles="articles"></article-list>
         </div>
 
         <div class="col-md-3">
@@ -55,7 +55,8 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import {mapState, mapActions} from "vuex";
+
 import ArticleList from "@/components/ArticleList";
 
 export default {
@@ -66,7 +67,30 @@ export default {
   },
 
   computed: {
-    ...mapState("articles", ["tags", "isTagsLoaded", "articles", "isArticlesLoaded"]),
-  }
+    ...mapState("tags", {
+      tags: state => state.all,
+      isTagsLoaded: state => state.isLoaded
+    }),
+
+    ...mapState("articles", {
+      articles: state => state.all,
+      isArticlesLoaded: state => state.isLoaded
+    }),
+  },
+
+  methods: {
+    ...mapActions("tags", {
+      initTags: "init"
+    }),
+
+    ...mapActions("articles", {
+      initArticles: "init"
+    })
+  },
+
+  created() {
+    this.initTags()
+    this.initArticles()
+  },
 }
 </script>

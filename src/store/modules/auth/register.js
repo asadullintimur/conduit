@@ -1,22 +1,17 @@
 import {authService} from "@/services/api";
 import localStorageService from "@/services/localStorageService";
-import {normalizeErrors} from "@/services/helpers/normalizeErrors";
+import {normalizeErrors} from "@/services/helpers";
 
 //state
 const state = () => ({
-    registerErrors: {},
-    isAuthenticated: false,
+    errors: {},
 });
 
 //mutations
 const mutations = {
-    setRegisterErrors(state, newRegisterErrors) {
-        state.registerErrors = newRegisterErrors
+    setErrors(state, newErrors) {
+        state.errors = newErrors
     },
-
-    authenticateUser(state) {
-        state.isAuthenticated = true;
-    }
 };
 
 //getters
@@ -31,8 +26,12 @@ const actions = {
                 commit("authenticateUser")
             })
             .catch(response => {
-                commit("setRegisterErrors", normalizeErrors(response.data.errors))
+                commit("setErrors", normalizeErrors(response.data.errors))
             })
+    },
+
+    init({commit}) {
+        commit("setErrors", {})
     }
 };
 

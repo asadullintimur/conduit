@@ -1,11 +1,14 @@
 import {createStore} from 'vuex'
 
 import articles from "@/store/modules/articles";
-import auth from "@/store/modules/auth";
+import tags from "@/store/modules/tags";
+import register from "@/store/modules/auth/register";
+
 
 export default createStore({
     modules: {
         articles,
-        auth
+        tags,
+        register
     }
 })

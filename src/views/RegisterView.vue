@@ -6,10 +6,6 @@
         <div class="col-md-6 offset-md-3 col-xs-12">
           <h1 class="text-xs-center">Sign up</h1>
 
-          <p v-if="isAuthenticated">
-            success
-          </p>
-
           <p class="text-xs-center">
             <a href="#login">Have an account?
             </a>
@@ -17,7 +13,7 @@
 
           <ul class="error-messages">
             <li
-                v-for="error in registerErrors"
+                v-for="error in errors"
                 :key="error">{{ error }}
             </li>
           </ul>
@@ -49,7 +45,7 @@
 
 <script>
 
-import {mapActions, mapState, mapMutations} from "vuex";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: "RegisterView",
@@ -65,16 +61,15 @@ export default {
   },
 
   methods: {
-    ...mapMutations("auth", ["setRegisterErrors"]),
-    ...mapActions("auth", ["register"])
+    ...mapActions("register", ["init", "register"])
   },
 
   computed: {
-    ...mapState("auth", ["registerErrors", "isAuthenticated"])
+    ...mapState("register",  ["errors"])
   },
 
-  beforeRouteLeave() {
-    this.setRegisterErrors({})
+  created() {
+    this.init()
   }
 }
 

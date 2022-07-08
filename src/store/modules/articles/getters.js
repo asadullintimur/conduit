@@ -1,5 +1,0 @@
-//getters
-
-export default {
-
-}
