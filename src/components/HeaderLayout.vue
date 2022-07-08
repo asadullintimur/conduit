@@ -4,13 +4,15 @@
       <router-link class="navbar-brand"
                    :to="{
             name: 'home'
-          }">conduit</router-link>
+          }">conduit
+      </router-link>
       <ul class="nav navbar-nav pull-xs-right">
         <li class="nav-item">
           <router-link class="nav-link"
-          :to="{
+                       :to="{
             name: 'home'
-          }">Home</router-link>
+          }">Home
+          </router-link>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="">
@@ -23,13 +25,19 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="">Sign in</a>
+          <router-link class="nav-link"
+                       :to="{
+                          name: 'login'
+                       }">
+            Sign in
+          </router-link>
         </li>
         <li class="nav-item">
           <router-link class="nav-link"
                        :to="{
             name: 'register'
-          }">Sign up</router-link>
+          }">Sign up
+          </router-link>
         </li>
       </ul>
     </div>

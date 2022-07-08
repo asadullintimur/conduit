@@ -4,10 +4,11 @@
       <div class="row">
 
         <div class="col-md-6 offset-md-3 col-xs-12">
-          <h1 class="text-xs-center">Sign up</h1>
-
+          <h1 class="text-xs-center">Sign in</h1>
           <p class="text-xs-center">
-            <router-link :to="{ name: 'login' }">Have an account?
+            <router-link :to="{
+              name: 'register'
+            }">Need an account?
             </router-link>
           </p>
 
@@ -21,42 +22,37 @@
           <form>
             <fieldset :disabled="isRequestPending">
               <fieldset class="form-group">
-                <input class="form-control form-control-lg" type="text" placeholder="Your Name"
-                       v-model="credentials.username">
-              </fieldset>
-              <fieldset class="form-group">
                 <input class="form-control form-control-lg" type="email" placeholder="Email"
                        v-model="credentials.email">
               </fieldset>
+
               <fieldset class="form-group">
                 <input class="form-control form-control-lg" type="password" placeholder="Password"
                        v-model="credentials.password">
               </fieldset>
+
               <button class="btn btn-lg btn-primary pull-xs-right"
-                      @click.prevent="register">
-                Sign up
+                      @click.prevent="(login)">
+                Sign in
               </button>
             </fieldset>
           </form>
         </div>
-
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
 import {mapActions, mapState} from "vuex";
 
 export default {
-  name: "RegisterView",
+  name: "LoginView",
 
   data() {
     return {
       credentials: {
         username: "",
-        email: "",
         password: "",
       }
     }
@@ -68,26 +64,23 @@ export default {
       auth: "auth"
     }),
 
-    register() {
+    login() {
       this.auth({
         credentials: this.credentials,
-        type: "register"
+        type: "login"
       }).then(() => this.$router.push({name: 'home'}))
     }
   },
 
   computed: {
     ...mapState("auth", ["errors", "isRequestPending"]),
-    ...mapState("user", ["isAuthenticated"])
   },
 
   created() {
     this.authInit()
   },
 }
-
 </script>
 
 <style scoped>
-
 </style>

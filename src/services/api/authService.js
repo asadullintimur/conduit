@@ -7,5 +7,15 @@ export const authService = {
                 ...credentials
             }
         })
-    }
+    },
+
+    login(credentials) {
+        return apiClient.post("users/login", {
+            user: {
+                ...credentials
+            }
+        })
+    },
+
+
 }
