@@ -6,8 +6,8 @@ const apiClient = axios.create({
 
 apiClient.interceptors.response.use(({data}) => {
     return data
-}, (error) => {
-    throw new Error(`Api service error: ${error}`)
+}, ({response}) => {
+    return Promise.reject(response)
 })
 
 export default apiClient

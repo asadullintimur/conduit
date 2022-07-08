@@ -1,7 +1,6 @@
 //actions
 
-import tagsService from "@/services/api/tagsService";
-import articlesService from "@/services/api/articlesService";
+import {tagsService, articlesService} from "@/services/api";
 
 export default {
     fetchTags({commit}) {
