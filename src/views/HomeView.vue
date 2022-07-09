@@ -12,16 +12,9 @@
       <div class="row">
 
         <div class="col-md-9">
-          <div class="feed-toggle">
-            <ul class="nav nav-pills outline-active">
-              <li class="nav-item">
-                <a class="nav-link disabled" href="">Your Feed</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="">Global Feed</a>
-              </li>
-            </ul>
-          </div>
+          <tab-items
+              :tabs="tabs"
+              @tab-clicked="tabClicked"></tab-items>
 
           <div class="article-preview"
                v-if="!isArticlesLoaded">
@@ -41,9 +34,12 @@
                 Loading tags...
               </p>
 
-              <a href="" class="tag-pill tag-default"
+              <a class="tag-pill tag-default"
+                 href=""
                  v-for="(tag, idx) in tags"
-                 :key="idx">
+                 :key="idx"
+                 @click.prevent="filterByTag(tag)"
+              >
                 {{ tag }}
               </a>
             </div>
@@ -58,12 +54,23 @@
 import {mapState, mapActions} from "vuex";
 
 import ArticleList from "@/components/ArticleList";
+import TabItems from "@/components/TabItems";
 
 export default {
   name: 'HomeView',
 
   components: {
-    ArticleList
+    ArticleList,
+    TabItems
+  },
+
+  data() {
+    return {
+      tabs: [{
+        name: "Global Feed",
+        active: true
+      }]
+    }
   },
 
   computed: {
@@ -80,17 +87,47 @@ export default {
 
   methods: {
     ...mapActions("tags", {
-      initTags: "init"
+      fetchTags: "fetch"
     }),
 
     ...mapActions("articles", {
-      initArticles: "init"
-    })
+      fetchArticles: "fetch"
+    }),
+
+    filterByTag(tag) {
+      this.fetchArticles({tag})
+      this.addTab(tag)
+    },
+
+    addTab(name) {
+      this.resetTabs();
+      this.tabs[0].active = false;
+
+      this.tabs.push({
+        name: `<i class="ion-pound"></i> ${name}`,
+        active: true
+      })
+    },
+
+    resetTabs() {
+      this.tabs = [{
+        name: "Global Feed",
+        active: true
+      }];
+    },
+
+    tabClicked(tab) {
+      if (this.tabs.findIndex(fTab => tab.name === fTab.name) === 0) {
+        this.resetTabs()
+        this.fetchArticles()
+      }
+    }
+
   },
 
   created() {
-    this.initTags()
-    this.initArticles()
+    this.fetchTags()
+    this.fetchArticles()
   },
 }
 </script>

@@ -4,7 +4,9 @@ const RESOURCE = "articles"
 
 
 export const articlesService = {
-    get() {
-        return apiClient.get(RESOURCE)
-    }
+    get(params) {
+        return apiClient.get(RESOURCE, {
+            params
+        })
+    },
 }

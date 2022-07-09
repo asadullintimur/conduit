@@ -22,7 +22,9 @@ const mutations = {
 
 //actions
 const actions = {
-    fetchTags({commit}) {
+    fetch({commit, dispatch}) {
+        dispatch("reset")
+
         tagsService.get()
             .then((data) => {
                 commit("setAll", data.tags)
@@ -30,10 +32,9 @@ const actions = {
             })
     },
 
-    init({commit, dispatch}) {
+    reset({commit}) {
         commit("setAll", [])
         commit("setIsLoaded", false)
-        dispatch("fetchTags")
     }
 };
 

@@ -42,6 +42,7 @@ export default {
 
     tagList: {
       type: Array,
+      default: []
     },
 
     createdAt: {

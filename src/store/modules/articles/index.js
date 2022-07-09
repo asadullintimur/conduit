@@ -21,19 +21,20 @@ const mutations = {
 
 //actions
 const actions = {
-    fetchArticles({commit}) {
-        articlesService.get()
+    fetch({commit, dispatch}, params={}) {
+        dispatch("reset")
+
+        articlesService.get(params)
             .then((data) => {
                 commit("setAll", data.articles)
                 commit("setIsLoaded", true)
             })
     },
 
-    init({commit, dispatch}) {
+    reset({commit}) {
         commit("setAll", [])
         commit("setIsLoaded", false)
-        dispatch("fetchArticles")
-    }
+    },
 };
 
 export default {
