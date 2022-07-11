@@ -10,10 +10,7 @@
 import HeaderLayout from "@/components/HeaderLayout";
 import FooterLayout from "@/components/FooterLayout";
 
-import {createNamespacedHelpers} from "vuex";
-
-const {mapActions: tagsActions} = createNamespacedHelpers("tags");
-const {mapActions: articlesActions} = createNamespacedHelpers("articles");
+import {mapActions} from "vuex";
 
 export default {
   components: {
@@ -21,7 +18,15 @@ export default {
     FooterLayout,
   },
 
+  methods: {
+    ...mapActions("articles", {
+      fetchArticles: "fetch"
+    })
+  },
 
+  created() {
+    this.fetchArticles()
+  }
 }
 
 </script>

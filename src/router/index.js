@@ -15,7 +15,14 @@ const routes = [
     path: "/login",
     name: "login",
     component: () => import("@/views/LoginView")
-  }
+  },
+  {
+    path: "/article/:slug",
+    name: "article.show",
+    component: () => import("@/views/ArticleView"),
+    props: true
+  },
+
 ]
 
 const router = createRouter({

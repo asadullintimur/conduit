@@ -10,7 +10,6 @@
 
     <div class="container page">
       <div class="row">
-
         <div class="col-md-9">
           <tab-items
               :tabs="tabs"

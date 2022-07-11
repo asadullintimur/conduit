@@ -14,16 +14,21 @@
           }">Home
           </router-link>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="">
-            <i class="ion-compose"></i>&nbsp;New Article
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="">
-            <i class="ion-gear-a"></i>&nbsp;Settings
-          </a>
-        </li>
+
+        <template
+            v-if="isAuthenticated">
+          <li class="nav-item">
+            <a class="nav-link" href="">
+              <i class="ion-compose"></i>&nbsp;New Article
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="">
+              <i class="ion-gear-a"></i>&nbsp;Settings
+            </a>
+          </li>
+        </template>
+
         <li class="nav-item">
           <router-link class="nav-link"
                        :to="{
@@ -45,8 +50,16 @@
 </template>
 
 <script>
+import {mapState} from "vuex"
+
 export default {
-  name: "HeaderLayout"
+  name: "HeaderLayout",
+
+  computed: {
+    ...mapState("user", [
+      "isAuthenticated"
+    ])
+  }
 }
 </script>
 

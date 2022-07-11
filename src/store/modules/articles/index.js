@@ -6,7 +6,11 @@ const state = () => ({
 });
 
 //getters
-const getters = {};
+const getters = {
+    getBySlug: (state) => (slug) => {
+        return state.all.find(article => article.slug === slug)
+    }
+};
 
 //mutations
 const mutations = {

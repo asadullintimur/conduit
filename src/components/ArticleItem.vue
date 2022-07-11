@@ -1,33 +1,47 @@
 <template>
   <div class="article-preview">
     <div class="article-meta">
-      <a href="profile.html"><img :src="author.image"/></a>
-      <div class="info">
-        <a href="" class="author">{{ author.username }}</a>
-        <span class="date">{{ date }}</span>
-      </div>
+      <article-author
+          :image="author.image"
+          :username="author.username"
+          :created-at="createdAt"
+      ></article-author>
+
       <button class="btn btn-outline-primary btn-sm pull-xs-right">
         <i class="ion-heart"></i> {{ favoritesCount }}
       </button>
     </div>
-    <a href="" class="preview-link">
+    <router-link class="preview-link"
+                 :to="{
+      name: 'article.show',
+      params: {
+        slug
+      }
+    }">
       <h1>{{ title }}</h1>
       <p> {{ description }}</p>
       <span>Read more...</span>
       <ul class="tag-list">
         <li class="tag-default tag-pill tag-outline ng-binding ng-scope"
-        v-for="(tag, idx) in tagList"
-        :key="idx">
+            v-for="(tag, idx) in tagList"
+            :key="idx">
           {{ tag }}
         </li>
       </ul>
-    </a>
+    </router-link>
   </div>
 </template>
 
 <script>
+import {formatDate} from "@/services/helpers";
+import ArticleAuthor from "@/components/ArticleAuthor";
+
 export default {
   name: "ArticleItem",
+
+  components: {
+    ArticleAuthor
+  },
 
   props: {
     title: {
@@ -58,17 +72,13 @@ export default {
     author: {
       required: true,
       type: Object
+    },
+
+    slug: {
+      required: true,
+      type: String,
     }
   },
-
-  computed: {
-    date() {
-      let date = new Date(Date.parse(this.createdAt));
-      let month = date.toLocaleString("en-us", {month: "long"});
-
-      return `${month} ${date.getDate()},${date.getFullYear()}`
-    }
-  }
 }
 </script>
 
