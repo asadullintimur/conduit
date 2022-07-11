@@ -1,9 +1,23 @@
 <template>
-  <a href="" class="comment-author">
+  <router-link class="comment-author"
+               :to="{
+    name: 'profile',
+    params: {
+      username
+    }
+  }">
     <img :src="image" class="comment-author-img"/>
-  </a>
+  </router-link>
   &nbsp;
-  <a href="" class="comment-author">{{ username }}</a>
+  <router-link class="comment-author"
+               :to="{
+    name: 'profile',
+    params: {
+      username
+    }
+  }">
+    {{ username }}
+  </router-link>
   <span class="date-posted">{{ date }}</span>
 </template>
 

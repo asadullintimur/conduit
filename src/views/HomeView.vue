@@ -121,7 +121,6 @@ export default {
         this.fetchArticles()
       }
     }
-
   },
 
   created() {

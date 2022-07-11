@@ -25,6 +25,14 @@
         </div>
       </div>
 
+      <ul class="tag-list">
+        <li class="tag-default tag-pill tag-outline"
+        v-for="tag in article.tagList"
+        :key="tag">
+          {{tag}}
+        </li>
+      </ul>
+
       <hr/>
 
       <div class="article-actions">
