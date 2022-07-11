@@ -35,8 +35,8 @@
 
               <a class="tag-pill tag-default"
                  href=""
-                 v-for="(tag, idx) in tags"
-                 :key="idx"
+                 v-for="tag in tags"
+                 :key="tag"
                  @click.prevent="filterByTag(tag)"
               >
                 {{ tag }}

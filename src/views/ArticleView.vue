@@ -39,7 +39,8 @@
       </div>
 
       <div class="row">
-        <article-comments></article-comments>
+        <article-comments
+            :comments="comments"></article-comments>
       </div>
     </div>
   </div>
@@ -51,8 +52,7 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex"
-import {mapState} from "vuex"
+import {mapState, mapActions} from "vuex"
 import ArticleMeta from "@/components/ArticleMeta"
 import ArticleComments from "@/components/ArticleComments"
 
@@ -72,22 +72,30 @@ export default {
   },
 
   computed: {
-    ...mapGetters("articles", ["getBySlug"]),
-    ...mapState("articles", ["isLoaded"]),
-
-    article() {
-      return this.getBySlug(this.slug)
-    },
+    ...mapState("article", {
+      article: "item",
+      isLoaded: "isLoaded",
+      comments: "comments"
+    }),
 
     author() {
       return this.article.author
     },
   },
 
+  methods: {
+    ...mapActions("article", {
+      fetchArticle: "fetch",
+      fetchComments: "fetchComments"
+    })
+  },
 
+  created() {
+    this.fetchArticle(this.slug)
+    this.fetchComments(this.slug)
+  }
 }
 </script>
 
 <style scoped>
-
 </style>

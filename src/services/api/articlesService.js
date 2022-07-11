@@ -9,4 +9,12 @@ export const articlesService = {
             params
         })
     },
+
+    getSingle(slug) {
+        return apiClient.get(`${RESOURCE}/${slug}`)
+    },
+
+    getComments(slug) {
+        return apiClient.get(`${RESOURCE}/${slug}/comments`)
+    }
 }
