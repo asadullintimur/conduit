@@ -6,7 +6,11 @@ const state = () => ({
 });
 
 //getters
-const getters = {};
+const getters = {
+    isEmpty(state) {
+        return state.all.length === 0 && state.isLoaded;
+    }
+};
 
 //mutations
 const mutations = {

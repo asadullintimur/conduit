@@ -1,7 +1,23 @@
 <template>
-  <a href="profile.html"><img :src="image"/></a>
+  <router-link :to="{
+    name: 'profile',
+    params: {
+      username
+    }
+     }">
+    <img :src="image"/>
+  </router-link>
   <div class="info">
-    <a href="" class="author">{{ username }}</a>
+
+    <router-link :to="{
+    name: 'profile',
+    params: {
+      username
+    }
+     }">
+      <a href="" class="author">{{ username }}</a>
+    </router-link>
+
     <span class="date">{{ date }}</span>
   </div>
 </template>

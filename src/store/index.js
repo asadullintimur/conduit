@@ -5,6 +5,7 @@ import tags from "@/store/modules/tags";
 import auth from "@/store/modules/auth";
 import user from "@/store/modules/user";
 import article from "@/store/modules/article";
+import profile from "@/store/modules/profile";
 
 
 
@@ -14,6 +15,7 @@ export default createStore({
         tags,
         auth,
         user,
-        article
+        article,
+        profile
     }
 })
