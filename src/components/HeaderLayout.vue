@@ -6,6 +6,7 @@
             name: 'home'
           }">conduit
       </router-link>
+
       <ul class="nav navbar-nav pull-xs-right">
         <li class="nav-item">
           <router-link class="nav-link"
@@ -22,28 +23,38 @@
               <i class="ion-compose"></i>&nbsp;New Article
             </a>
           </li>
+
           <li class="nav-item">
             <a class="nav-link" href="">
               <i class="ion-gear-a"></i>&nbsp;Settings
             </a>
           </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="">
+              {{ user.username }}
+            </a>
+          </li>
         </template>
 
-        <li class="nav-item">
-          <router-link class="nav-link"
-                       :to="{
+        <template
+            v-else>
+          <li class="nav-item">
+            <router-link class="nav-link"
+                         :to="{
                           name: 'login'
                        }">
-            Sign in
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link"
-                       :to="{
+              Sign in
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link"
+                         :to="{
             name: 'register'
           }">Sign up
-          </router-link>
-        </li>
+            </router-link>
+          </li>
+        </template>
       </ul>
     </div>
   </nav>
@@ -56,8 +67,9 @@ export default {
   name: "HeaderLayout",
 
   computed: {
-    ...mapState("user", [
-      "isAuthenticated"
+    ...mapState("auth", [
+      "isAuthenticated",
+      "user"
     ])
   }
 }

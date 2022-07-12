@@ -1,4 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router'
+import store from "@/store"
 
 const routes = [
     {
@@ -50,9 +51,15 @@ const router = createRouter({
     routes
 })
 
+//set page title
 router.beforeEach((to, from) => {
     let title = to.meta.title;
     document.title = (typeof title === 'function' ? title(to) : title) + ' - Conduit';
+})
+
+//check is user auth
+router.beforeEach( async (to, from) => {
+    await store.dispatch("auth/check")
 })
 
 export default router

@@ -10,7 +10,7 @@
 
     <div class="container page">
       <div class="row">
-        <div class="col-md-9">
+        <div  class="col-md-9">
           <tab-items
               :tabs="tabs"
               @tab-clicked="tabClicked"></tab-items>
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import {mapState, mapActions} from "vuex";
+import {mapState, mapActions, mapGetters} from "vuex";
 
 import ArticleList from "@/components/ArticleList";
 import TabItems from "@/components/TabItems";
@@ -82,6 +82,8 @@ export default {
       articles: state => state.all,
       isArticlesLoaded: state => state.isLoaded
     }),
+
+    ...mapState("auth", ["isAuthenticated"])
   },
 
   methods: {

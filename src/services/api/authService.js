@@ -17,5 +17,11 @@ export const authService = {
         })
     },
 
-
+    getUser(token) {
+        return apiClient.get("user", {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+    }
 }
