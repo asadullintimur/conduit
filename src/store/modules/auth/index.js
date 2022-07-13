@@ -53,7 +53,7 @@ const actions = {
 
         return authService.getUser(token)
             .then(() => {
-                dispatch("authenticate", token)
+                return dispatch("authenticate", token)
             })
             .catch(() => {
                 dispatch("logout")
@@ -61,15 +61,15 @@ const actions = {
     },
 
     fetchUser({commit}, token) {
-        authService.getUser(token)
+        return authService.getUser(token)
             .then(({user}) => {
                 commit("setUser", user)
             })
     },
 
-    authenticate({commit, dispatch}, token) {
+    async authenticate({commit, dispatch}, token) {
         setToken(token)
-        dispatch("fetchUser", token)
+        await dispatch("fetchUser", token)
         commit("setIsAuthenticated", true)
     },
 
