@@ -5,6 +5,10 @@ import store from './store'
 
 const app = createApp(App);
 
-app.use(store)
-    .use(router)
-    .mount('#app')
+//check auth before mount app
+store.dispatch("auth/check")
+    .finally(() => {
+        app.use(store)
+            .use(router)
+            .mount('#app')
+    })

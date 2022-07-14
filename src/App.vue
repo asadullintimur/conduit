@@ -26,8 +26,8 @@ export default {
       if (!isAuth) {
         this.$router.push({name: "home"})
       }
-    }
-  }
+    },
+  },
 }
 
 </script>

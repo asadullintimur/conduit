@@ -4,9 +4,14 @@ const ACCESS = {
     GUEST: 2
 };
 
+const RESPONSE = {
+  UNAUTHORIZED: 401
+};
+
 const SITE_NAME = "Conduit";
 
 export {
     ACCESS,
-    SITE_NAME
+    SITE_NAME,
+    RESPONSE
 }
