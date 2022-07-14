@@ -10,11 +10,18 @@
             <p>
               {{ profile.bio }}
             </p>
-            <button class="btn btn-sm btn-outline-secondary action-btn">
-              <i class="ion-plus-round"></i>
-              &nbsp;
-              Follow Eric Simons
-            </button>
+
+            <router-link class="btn btn-sm btn-outline-secondary action-btn"
+                         v-if="isOwnProfile"
+                         :to="{
+              name: 'settings',
+            }">
+              <i class="ion-gear-a"></i> Edit Profile Settings
+            </router-link>
+
+            <follow-button
+            v-else>
+            </follow-button>
           </div>
 
         </div>
@@ -53,10 +60,11 @@
 import {mapActions, mapGetters, mapState} from "vuex";
 import ArticleList from "@/components/ArticleList";
 import TabItems from "@/components/TabItems";
+import FollowButton from "@/components/FollowButton";
 
 export default {
   name: "ProfileView",
-  components: {TabItems, ArticleList},
+  components: {FollowButton, TabItems, ArticleList},
 
   props: {
     username: {
@@ -70,7 +78,7 @@ export default {
       tabs: [
         {
           name: "My articles",
-          value: "all",
+          value: "author",
           active: true,
         },
         {
@@ -92,11 +100,9 @@ export default {
     }),
 
     changeArticleType(tab) {
-      let params = {};
-
-      if (tab.value === "favorited") {
-        params.favorited = this.username;
-      }
+      let params = {
+        [tab.value]: this.username
+      };
 
       this.tabs.forEach(tab => tab.active = false)
       tab.active = true;
@@ -117,7 +123,9 @@ export default {
 
     ...mapGetters("articles", {
       isArticlesEmpty: "isEmpty"
-    })
+    }),
+
+    ...mapGetters("profile", ["isOwnProfile"])
   },
 
   created() {

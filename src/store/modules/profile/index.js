@@ -13,7 +13,11 @@ const mutations = {
 };
 
 //getters
-const getters = {};
+const getters = {
+    isOwnProfile(state, _, rootState) {
+        return state.user.username === rootState.auth.user.username;
+    }
+};
 
 //actions
 const actions = {

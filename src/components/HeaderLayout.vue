@@ -26,7 +26,7 @@
 
           <li class="nav-item">
             <router-link class="nav-link"
-            :to="{
+                         :to="{
               name: 'settings'
             }">
               <i class="ion-gear-a"></i>&nbsp;Settings
@@ -34,9 +34,15 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="">
+            <router-link class="nav-link"
+                         :to="{
+              name: 'profile',
+              params: {
+                username: user.username
+              }
+            }">
               {{ user.username }}
-            </a>
+            </router-link>
           </li>
         </template>
 
