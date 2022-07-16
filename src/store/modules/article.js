@@ -1,9 +1,13 @@
-import {articlesService} from "@/services/api";
+import articlesService from "@/services/api/articlesService";
+import {normalizeErrors} from "@/services/helpers";
 
 const state = () => ({
     item: {},
     comments: [],
     isLoaded: false,
+    //article create/edit
+    isRequestPending: false,
+    errors: {}
 });
 
 //getters
@@ -21,6 +25,14 @@ const mutations = {
 
     setComments(state, newComments) {
         state.comments = newComments;
+    },
+
+    setRequestPending(state, newStatus) {
+        state.isRequestPending = newStatus;
+    },
+
+    setErrors(state, newErrors) {
+        state.errors = newErrors;
     }
 };
 
@@ -43,11 +55,25 @@ const actions = {
             })
     },
 
+    create({commit}, article) {
+        commit("setRequestPending", true)
+
+        articlesService.create(article)
+            .finally(() => commit("setRequestPending", false))
+            .catch(({data}) => {
+                commit("setErrors", normalizeErrors(data.errors))
+                throw new Error()
+            })
+    },
 
     reset({commit}) {
         commit("setItem", {})
         commit("setComments", [])
         commit("setIsLoaded", false)
+    },
+
+    resetErrors({commit}) {
+        commit("setErrors", {})
     }
 };
 

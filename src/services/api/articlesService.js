@@ -1,8 +1,9 @@
 import apiClient from "@/services/api/apiClient";
+import {getToken} from "@/services/jwtService";
 
 const RESOURCE = "articles"
 
-export const articlesService = {
+export default {
     get(params) {
         return apiClient.get(RESOURCE, {
             params
@@ -15,5 +16,15 @@ export const articlesService = {
 
     getComments(slug) {
         return apiClient.get(`${RESOURCE}/${slug}/comments`)
+    },
+
+    create(article) {
+        return apiClient({
+            url: `${RESOURCE}`,
+            method: "post",
+            data: {
+                article
+            }
+        })
     }
 }

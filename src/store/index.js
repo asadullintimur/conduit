@@ -14,6 +14,6 @@ export default createStore({
         tags,
         auth,
         article,
-        profile
+        profile,
     }
 })

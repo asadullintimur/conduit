@@ -1,36 +1,33 @@
-import {articlesService} from "@/services/api";
+import tagsService from "@/services/api/tagsService";
 
+//state
 const state = () => ({
     all: [],
     isLoaded: false,
 });
 
 //getters
-const getters = {
-    isEmpty(state) {
-        return state.all.length === 0 && state.isLoaded;
-    }
-};
+const getters = {};
 
 //mutations
 const mutations = {
-    setAll(state, newArticles) {
-        state.all = newArticles;
+    setAll(state, newTags) {
+        state.all = newTags;
     },
 
     setIsLoaded(state, newIsLoaded) {
         state.isLoaded = newIsLoaded;
-    }
+    },
 };
 
 //actions
 const actions = {
-    fetch({commit, dispatch}, params={}) {
+    fetch({commit, dispatch}) {
         dispatch("reset")
 
-        articlesService.get(params)
+        tagsService.get()
             .then((data) => {
-                commit("setAll", data.articles)
+                commit("setAll", data.tags)
                 commit("setIsLoaded", true)
             })
     },
@@ -38,13 +35,13 @@ const actions = {
     reset({commit}) {
         commit("setAll", [])
         commit("setIsLoaded", false)
-    },
+    }
 };
 
 export default {
-    actions,
-    getters,
-    mutations,
+    namespaced: true,
     state,
-    namespaced: true
+    mutations,
+    getters,
+    actions
 }

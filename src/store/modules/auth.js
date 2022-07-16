@@ -1,10 +1,9 @@
-import {authService} from "@/services/api";
 import {normalizeErrors} from "@/services/helpers";
 import {getToken, setToken, deleteToken} from "@/services/jwtService";
+import authService from "@/services/api/authService";
+
 //state
 const state = () => ({
-    errors: {},
-    isRequestPending: false,
     isAuthenticated: false,
     user: {},
 });
@@ -42,8 +41,8 @@ const actions = {
             .then(({user}) => {
                 dispatch("authenticate", user.token)
             })
-            .catch(response => {
-                commit("setErrors", normalizeErrors(response.data.errors))
+            .catch(({data}) => {
+                commit("setErrors", normalizeErrors(data.errors))
                 throw new Error()
             })
     },

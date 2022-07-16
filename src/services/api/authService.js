@@ -1,7 +1,6 @@
 import apiClient from "@/services/api/apiClient";
-import {getToken} from "@/services/jwtService";
 
-export const authService = {
+export default  {
     register(credentials) {
         return apiClient.post("users", {
             user: credentials
@@ -15,20 +14,13 @@ export const authService = {
     },
 
     getUser() {
-        return apiClient.get("user", {
-            headers: {
-                authorization: `Bearer ${getToken()}`
-            }
-        })
+        return apiClient.get("user", {})
     },
 
     updateUser(user) {
         return apiClient({
             method: "put",
             url: "user",
-            headers: {
-                authorization: `Bearer ${getToken()}`
-            },
             data: {
                 user
             }

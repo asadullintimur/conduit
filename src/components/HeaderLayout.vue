@@ -19,9 +19,12 @@
         <template
             v-if="isAuthenticated">
           <li class="nav-item">
-            <a class="nav-link" href="">
+            <router-link class="nav-link"
+            :to="{
+              name: 'editor'
+            }">
               <i class="ion-compose"></i>&nbsp;New Article
-            </a>
+            </router-link>
           </li>
 
           <li class="nav-item">

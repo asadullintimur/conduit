@@ -1,4 +1,4 @@
-import {profileService} from "@/services/api";
+import profileService from "@/services/api/profileService";
 
 //state
 const state = () => ({

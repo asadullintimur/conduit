@@ -60,6 +60,17 @@ const routes = [
             access: ACCESS.USER
         }
     },
+
+    {
+        path: "/editor/:slug?",
+        name: "editor",
+        component: () => import("@/views/EditorView"),
+        props: true,
+        meta: {
+            title: "Editor",
+            access: ACCESS.USER
+        }
+    },
 ]
 
 const router = createRouter({
@@ -68,7 +79,7 @@ const router = createRouter({
 })
 
 //checks if the user has access to the page
-router.beforeEach(async (to, from) => {
+router.beforeEach(  (to, from) => {
     store.dispatch("auth/check")
 
     let isAuthenticated = store.state.auth.isAuthenticated,
