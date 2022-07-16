@@ -92,6 +92,14 @@ export default {
 
     publish() {
       this.createArticle(this.article)
+          .then(({article}) => {
+            this.$router.push({
+              name: 'article.show',
+              params: {
+                slug: article.slug
+              }
+            })
+          })
     },
 
     createTag(tag) {

@@ -20,7 +20,7 @@
             </router-link>
 
             <follow-button
-            v-else>
+                v-else>
             </follow-button>
           </div>
 
@@ -37,18 +37,8 @@
           </tab-items>
 
           <article-list
-              :articles="articles">
+              :[filter]="username">
           </article-list>
-
-          <div class="article-preview"
-               v-if="!isArticlesLoaded">
-            Loading articles...
-          </div>
-
-          <div class="article-preview"
-               v-if="isArticlesEmpty">
-            No articles are here... yet.
-          </div>
         </div>
       </div>
     </div>
@@ -86,7 +76,8 @@ export default {
           value: "favorited",
           active: false
         }
-      ]
+      ],
+      filter: "author"
     }
   },
 
@@ -95,19 +86,11 @@ export default {
       fetchProfile: "fetch"
     }),
 
-    ...mapActions("articles", {
-      fetchArticles: "fetch"
-    }),
-
     changeArticleType(tab) {
-      let params = {
-        [tab.value]: this.username
-      };
+      this.filter = tab.value;
 
       this.tabs.forEach(tab => tab.active = false)
       tab.active = true;
-
-      this.fetchArticles(params)
     }
   },
 
@@ -116,21 +99,11 @@ export default {
       profile: "user"
     }),
 
-    ...mapState("articles", {
-      articles: "all",
-      isArticlesLoaded: "isLoaded"
-    }),
-
-    ...mapGetters("articles", {
-      isArticlesEmpty: "isEmpty"
-    }),
-
     ...mapGetters("profile", ["isOwnProfile"])
   },
 
   created() {
     this.fetchProfile(this.username)
-    this.fetchArticles({author: this.username})
   }
 }
 </script>

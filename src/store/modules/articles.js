@@ -2,6 +2,7 @@ import articlesService from "@/services/api/articlesService";
 
 const state = () => ({
     all: [],
+    count: 0,
     isLoaded: false,
 });
 
@@ -20,6 +21,10 @@ const mutations = {
 
     setIsLoaded(state, newIsLoaded) {
         state.isLoaded = newIsLoaded;
+    },
+
+    setCount(state, newCount) {
+        state.count = newCount;
     }
 };
 
@@ -31,6 +36,7 @@ const actions = {
         articlesService.get(params)
             .then((data) => {
                 commit("setAll", data.articles)
+                commit("setCount", data.articlesCount)
                 commit("setIsLoaded", true)
             })
     },

@@ -58,7 +58,7 @@ const actions = {
     create({commit}, article) {
         commit("setRequestPending", true)
 
-        articlesService.create(article)
+        return articlesService.create(article)
             .finally(() => commit("setRequestPending", false))
             .catch(({data}) => {
                 commit("setErrors", normalizeErrors(data.errors))

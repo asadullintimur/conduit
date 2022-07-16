@@ -10,18 +10,15 @@
 
     <div class="container page">
       <div class="row">
-        <div  class="col-md-9">
+        <div class="col-md-9">
           <tab-items
               :tabs="tabs"
               @tab-clicked="tabClicked"></tab-items>
 
-          <div class="article-preview"
-               v-if="!isArticlesLoaded">
-            Loading articles...
-          </div>
 
           <article-list
-              :articles="articles"></article-list>
+          :tag="tag"></article-list>
+
         </div>
 
         <div class="col-md-3">
@@ -49,8 +46,10 @@
   </div>
 </template>
 
+
 <script>
-import {mapState, mapActions, mapGetters} from "vuex";
+import {mapState, mapActions} from "vuex";
+
 
 import ArticleList from "@/components/ArticleList";
 import TabItems from "@/components/TabItems";
@@ -68,7 +67,8 @@ export default {
       tabs: [{
         name: "Global Feed",
         active: true
-      }]
+      }],
+      tag: ""
     }
   },
 
@@ -76,11 +76,6 @@ export default {
     ...mapState("tags", {
       tags: state => state.all,
       isTagsLoaded: state => state.isLoaded
-    }),
-
-    ...mapState("articles", {
-      articles: state => state.all,
-      isArticlesLoaded: state => state.isLoaded
     }),
 
     ...mapState("auth", ["isAuthenticated"])
@@ -96,7 +91,7 @@ export default {
     }),
 
     filterByTag(tag) {
-      this.fetchArticles({tag})
+      this.tag = tag;
       this.addTab(tag)
     },
 
@@ -120,7 +115,7 @@ export default {
     tabClicked(tab) {
       if (this.tabs.findIndex(fTab => tab.name === fTab.name) === 0) {
         this.resetTabs()
-        this.fetchArticles()
+        this.tag = "";
       }
     }
   },
