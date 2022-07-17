@@ -30,5 +30,9 @@ export default {
 
     favorite(slug) {
         return apiClient.post(`${RESOURCE}/${slug}/favorite`)
+    },
+
+    unfavorite(slug) {
+        return apiClient.delete(`${RESOURCE}/${slug}/favorite`)
     }
 }

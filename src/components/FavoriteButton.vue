@@ -45,19 +45,20 @@ export default {
 
   methods: {
     ...mapActions("article", {
-      favoriteArticle: "favorite"
+      favoriteArticle: "favorite",
+      unfavoriteArticle: "unfavorite"
     }),
 
     favorite() {
-      this.isRequestPending = true;
-
-      this.favoriteArticle(this.slug)
+      (this.favorited ?
+          this.unfavoriteArticle :
+          this.favoriteArticle)(this.slug)
           .finally(() => this.isRequestPending = false)
           .then(({article}) => {
             this.favoritesCount = article.favoritesCount;
             this.favorited = article.favorited
           })
-    }
+    },
   }
 }
 </script>

@@ -1,12 +1,9 @@
 import articlesService from "@/services/api/articlesService";
-import {normalizeErrors} from "@/services/helpers";
 
 const state = () => ({
     item: {},
     comments: [],
     isLoaded: false,
-    isRequestPending: false,
-    errors: {}
 });
 
 //getters
@@ -25,14 +22,6 @@ const mutations = {
     setComments(state, newComments) {
         state.comments = newComments;
     },
-
-    setRequestPending(state, newStatus) {
-        state.isRequestPending = newStatus;
-    },
-
-    setErrors(state, newErrors) {
-        state.errors = newErrors;
-    }
 };
 
 //actions
@@ -55,18 +44,15 @@ const actions = {
     },
 
     create({commit}, article) {
-        commit("setRequestPending", true)
-
         return articlesService.create(article)
-            .finally(() => commit("setRequestPending", false))
-            .catch(({data}) => {
-                commit("setErrors", normalizeErrors(data.errors))
-                throw new Error()
-            })
     },
 
     favorite({}, slug) {
         return articlesService.favorite(slug)
+    },
+
+    unfavorite({}, slug) {
+        return articlesService.unfavorite(slug)
     },
 
     reset({commit}) {
@@ -74,10 +60,6 @@ const actions = {
         commit("setComments", [])
         commit("setIsLoaded", false)
     },
-
-    resetErrors({commit}) {
-        commit("setErrors", {})
-    }
 };
 
 export default {
