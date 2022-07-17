@@ -1,5 +1,6 @@
 <template>
-  <div class="profile-page">
+  <div class="profile-page"
+  v-if="isLoaded">
     <div class="user-info">
       <div class="container">
         <div class="row">
@@ -20,6 +21,8 @@
             </router-link>
 
             <follow-button
+                :initial-following="profile.following"
+                :username="profile.username"
                 v-else>
             </follow-button>
           </div>
@@ -42,8 +45,12 @@
         </div>
       </div>
     </div>
-
   </div>
+
+  <p v-else
+     class="loading-line">
+    Loading...
+  </p>
 </template>
 
 <script>
@@ -96,7 +103,8 @@ export default {
 
   computed: {
     ...mapState("profile", {
-      profile: "user"
+      profile: "user",
+      isLoaded: "isLoaded"
     }),
 
     ...mapGetters("profile", ["isOwnProfile"])
