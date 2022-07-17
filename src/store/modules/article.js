@@ -5,7 +5,6 @@ const state = () => ({
     item: {},
     comments: [],
     isLoaded: false,
-    //article create/edit
     isRequestPending: false,
     errors: {}
 });
@@ -64,6 +63,10 @@ const actions = {
                 commit("setErrors", normalizeErrors(data.errors))
                 throw new Error()
             })
+    },
+
+    favorite({}, slug) {
+        return articlesService.favorite(slug)
     },
 
     reset({commit}) {

@@ -26,5 +26,9 @@ export default {
                 article
             }
         })
+    },
+
+    favorite(slug) {
+        return apiClient.post(`${RESOURCE}/${slug}/favorite`)
     }
 }

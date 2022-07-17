@@ -7,9 +7,12 @@
           :created-at="createdAt"
       ></article-author>
 
-      <button class="btn btn-outline-primary btn-sm pull-xs-right">
-        <i class="ion-heart"></i> {{ favoritesCount }}
-      </button>
+      <favorite-button
+          :initial-favorites-count="favoritesCount"
+          :initial-favorited="favorited"
+          :slug="slug"
+      class="pull-xs-right">
+      </favorite-button>
     </div>
     <router-link class="preview-link"
                  :to="{
@@ -35,11 +38,13 @@
 <script>
 import {formatDate} from "@/services/helpers";
 import ArticleAuthor from "@/components/ArticleAuthor";
+import FavoriteButton from "@/components/FavoriteButton";
 
 export default {
   name: "ArticleItem",
 
   components: {
+    FavoriteButton,
     ArticleAuthor
   },
 
@@ -77,6 +82,11 @@ export default {
     slug: {
       required: true,
       type: String,
+    },
+
+    favorited: {
+      required: true,
+      type: Boolean
     }
   },
 }
