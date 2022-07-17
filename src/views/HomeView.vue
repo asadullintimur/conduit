@@ -86,10 +86,6 @@ export default {
       fetchTags: "fetch"
     }),
 
-    ...mapActions("articles", {
-      fetchArticles: "fetch"
-    }),
-
     filterByTag(tag) {
       this.tag = tag;
       this.addTab(tag)
@@ -122,7 +118,6 @@ export default {
 
   created() {
     this.fetchTags()
-    this.fetchArticles()
   },
 }
 </script>

@@ -15,7 +15,10 @@
       v-bind="article"
       :key="idx"></article-item>
 
-  <pagination-items>
+  <pagination-items
+      :pages="pages"
+      :active="currentPage"
+      @change-page="changePage">
   </pagination-items>
 </template>
 
@@ -46,14 +49,14 @@ export default {
     },
 
     perPage: {
-      type: Number
+      type: Number,
+      default: 5
     }
   },
 
-
   data() {
     return {
-      pages: 1
+      currentPage: 1
     }
   },
 
@@ -61,25 +64,66 @@ export default {
     ...mapState("articles", ["all", "count", "isLoaded"]),
     ...mapGetters("articles", ["isEmpty"]),
 
-    params() {
-      let params = {};
+    pages() {
+      return Math.ceil(this.count / this.perPage);
+    },
 
-      if (this.author) params.author = this.author;
-      if (this.tag) params.tag = this.tag;
-      if (this.favorited) params.favorited = this.favorited;
+    queryOffset() {
+      return (this.currentPage - 1) * this.perPage;
+    },
 
-      return params;
+    queryFilters() {
+      let filters = {};
+
+      if (this.author) filters.author = this.author;
+      if (this.tag) filters.tag = this.tag;
+      if (this.favorited) filters.favorited = this.favorited;
+
+      return filters;
+    },
+
+    queryPagination() {
+      return {
+        limit: this.perPage,
+        offset: this.queryOffset
+      }
+    },
+
+    queryParams() {
+      return {
+        ...this.queryFilters,
+        ...this.queryPagination
+      }
     }
   },
 
   methods: {
-    ...mapActions("articles", ["fetch"]),
+    ...mapActions("articles", ["fetch", "fetchCount"]),
+
+    changePage(page) {
+      this.currentPage = page;
+    },
+
+    resetPage() {
+      this.currentPage = 1;
+    }
   },
 
   watch: {
-    params(newParams) {
-      this.fetch(newParams)
-    }
+    queryFilters: {
+      handler(newFilters) {
+        this.resetPage()
+        this.fetchCount(newFilters)
+      },
+      immediate: true
+    },
+
+    queryParams: {
+      handler(newParams) {
+        this.fetch(newParams)
+      },
+      immediate: true
+    },
   }
 }
 </script>

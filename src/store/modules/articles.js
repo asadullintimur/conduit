@@ -30,16 +30,25 @@ const mutations = {
 
 //actions
 const actions = {
-    fetch({commit, dispatch}, params={}) {
+    fetch({commit, dispatch}, params = {}) {
         dispatch("reset")
 
         articlesService.get(params)
             .then((data) => {
                 commit("setAll", data.articles)
-                commit("setCount", data.articlesCount)
                 commit("setIsLoaded", true)
             })
     },
+
+    fetchCount({commit}, params = {}) {
+        commit("setCount", 0)
+
+        articlesService.get(params)
+            .then((data) => {
+                commit("setCount", data.articlesCount)
+            })
+    },
+
 
     reset({commit}) {
         commit("setAll", [])
