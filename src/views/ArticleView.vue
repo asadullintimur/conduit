@@ -19,9 +19,7 @@
     <div class="container page">
       <div class="row article-content">
         <div class="col-md-12">
-          <p>
-            {{ article.body }}
-          </p>
+          <p v-html="body"></p>
         </div>
       </div>
 
@@ -63,6 +61,7 @@
 import {mapState, mapActions} from "vuex"
 import ArticleMeta from "@/components/ArticleMeta"
 import ArticleComments from "@/components/ArticleComments"
+import {parseMarkdown} from "@/services/helpers";
 
 export default {
   name: "ArticleView",
@@ -89,6 +88,10 @@ export default {
     author() {
       return this.article.author
     },
+
+    body() {
+      return parseMarkdown(this.article.body)
+    }
   },
 
   methods: {
