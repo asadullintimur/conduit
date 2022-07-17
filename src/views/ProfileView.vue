@@ -104,6 +104,10 @@ export default {
 
   created() {
     this.fetchProfile(this.username)
+  },
+
+  beforeRouteUpdate(to) {
+    this.fetchProfile(to.params.username)
   }
 }
 </script>

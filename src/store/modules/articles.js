@@ -1,5 +1,6 @@
 import articlesService from "@/services/api/articlesService";
 
+//state
 const state = () => ({
     all: [],
     count: 0,
@@ -9,7 +10,7 @@ const state = () => ({
 //getters
 const getters = {
     isEmpty(state) {
-        return state.all.length === 0 && state.isLoaded;
+        return state.count === 0 && state.isLoaded;
     }
 };
 
@@ -40,8 +41,8 @@ const actions = {
             })
     },
 
-    fetchCount({commit}, params = {}) {
-        commit("setCount", 0)
+    fetchCount({commit, dispatch}, params = {}) {
+        dispatch("resetCount")
 
         articlesService.get(params)
             .then((data) => {
@@ -49,11 +50,14 @@ const actions = {
             })
     },
 
-
     reset({commit}) {
         commit("setAll", [])
         commit("setIsLoaded", false)
     },
+
+    resetCount({commit}) {
+        commit('setCount', 0)
+    }
 };
 
 export default {

@@ -25,9 +25,9 @@
 
       <ul class="tag-list">
         <li class="tag-default tag-pill tag-outline"
-        v-for="tag in article.tagList"
-        :key="tag">
-          {{tag}}
+            v-for="tag in article.tagList"
+            :key="tag">
+          {{ tag }}
         </li>
       </ul>
 
@@ -99,6 +99,11 @@ export default {
       fetchArticle: "fetch",
       fetchComments: "fetchComments"
     })
+  },
+
+  beforeRouteUpdate() {
+    this.fetchArticle(this.slug)
+    this.fetchComments(this.slug)
   },
 
   created() {

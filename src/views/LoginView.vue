@@ -32,7 +32,7 @@
               </fieldset>
 
               <button class="btn btn-lg btn-primary pull-xs-right"
-                      @click.prevent="(login)">
+                      @click.prevent="login">
                 Sign in
               </button>
             </fieldset>
@@ -44,7 +44,8 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
+import {mapActions} from "vuex";
+import {normalizeErrors} from "@/services/helpers";
 
 export default {
   name: "LoginView",
@@ -54,30 +55,27 @@ export default {
       credentials: {
         username: "",
         password: "",
-      }
+      },
+      isRequestPending: false,
+      errors: {}
     }
   },
 
   methods: {
     ...mapActions("auth", {
-      authInit: "init",
-      auth: "auth"
+      authLogin: 'login'
     }),
 
     login() {
-      this.auth({
-        credentials: this.credentials,
-        type: "login"
-      }).then(() => this.$router.push({name: 'home'}))
+      this.isRequestPending = true;
+
+      this.authLogin(this.credentials)
+          .finally(() => this.isRequestPending = false)
+          .then(() => this.$router.push({name: 'home'}))
+          .catch(({data}) => {
+            this.errors = normalizeErrors(data.errors);
+          })
     }
-  },
-
-  computed: {
-    ...mapState("auth", ["errors", "isRequestPending"]),
-  },
-
-  created() {
-    this.authInit()
   },
 }
 </script>

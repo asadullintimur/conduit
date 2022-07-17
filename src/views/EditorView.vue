@@ -53,6 +53,7 @@
 <script>
 import TagsInput from "@/components/TagsInput";
 import {mapActions, mapState} from "vuex";
+import {normalizeErrors} from "@/services/helpers";
 
 export default {
   name: "EditorView",
@@ -72,13 +73,13 @@ export default {
         description: "",
         body: "",
         tagList: []
-      }
+      },
+      errors: {},
+      isRequestPending: false
     }
   },
 
   computed: {
-    ...mapState("article", ["errors", "isRequestPending"]),
-
     tags() {
       return this.article.tagList;
     }
@@ -87,11 +88,13 @@ export default {
   methods: {
     ...mapActions("article", {
       createArticle: 'create',
-      resetErrors: "resetErrors"
     }),
 
     publish() {
+      this.isRequestPending = true;
+
       this.createArticle(this.article)
+          .finally(() => this.isRequestPending = false)
           .then(({article}) => {
             this.$router.push({
               name: 'article.show',
@@ -99,6 +102,9 @@ export default {
                 slug: article.slug
               }
             })
+          })
+          .catch(({data}) => {
+            this.errors = normalizeErrors(data.errors);
           })
     },
 
@@ -110,10 +116,6 @@ export default {
       this.article.tagList = this.tags.filter(fTag => fTag !== tag);
     }
   },
-
-  created() {
-    this.resetErrors()
-  }
 }
 </script>
 

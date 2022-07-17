@@ -58,14 +58,14 @@ export default {
 
   data() {
     return {
-      user: {}
+      user: {},
+      isRequestPending: false,
     }
   },
 
   computed: {
     ...mapState("auth", {
       authUser: "user",
-      isRequestPending: "isRequestPending"
     })
   },
 
@@ -73,7 +73,10 @@ export default {
     ...mapActions("auth", ["logout", "updateUser"]),
 
     update() {
+      this.isRequestPending = true;
+
       this.updateUser(this.user)
+          .finally(() => this.isRequestPending = false)
           .then(user => {
             this.$router.push({
               name: "profile",

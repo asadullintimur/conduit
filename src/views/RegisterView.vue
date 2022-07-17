@@ -47,7 +47,8 @@
 
 <script>
 
-import {mapActions, mapState} from "vuex";
+import {mapActions} from "vuex";
+import {normalizeErrors} from "@/services/helpers";
 
 export default {
   name: "RegisterView",
@@ -58,31 +59,27 @@ export default {
         username: "",
         email: "",
         password: "",
-      }
+      },
+      errors: {},
+      isRequestPending: false,
     }
   },
 
   methods: {
     ...mapActions("auth", {
-      authInit: "init",
-      auth: "auth"
+      authRegister: "register",
     }),
 
     register() {
-      this.auth({
-        credentials: this.credentials,
-        type: "register"
-      }).then(() => this.$router.push({name: 'home'}))
+      this.isRequestPending = true;
+
+      this.authRegister(this.credentials)
+          .finally(() => this.isRequestPending = false)
+          .then(() => this.$router.push({name: 'home'}))
+          .catch(({data}) => {
+            this.errors = normalizeErrors(data.errors);
+          })
     }
-  },
-
-  computed: {
-    ...mapState("auth", ["errors", "isRequestPending"]),
-    ...mapState("user", ["isAuthenticated"])
-  },
-
-  created() {
-    this.authInit()
   },
 }
 

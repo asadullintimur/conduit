@@ -17,8 +17,7 @@
 
 
           <article-list
-          :tag="tag"></article-list>
-
+              :tag="tag"></article-list>
         </div>
 
         <div class="col-md-3">

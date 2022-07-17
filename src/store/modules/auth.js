@@ -10,14 +10,6 @@ const state = () => ({
 
 //mutations
 const mutations = {
-    setErrors(state, newErrors) {
-        state.errors = newErrors;
-    },
-
-    setRequestPending(state, newStatus) {
-        state.isRequestPending = newStatus;
-    },
-
     setIsAuthenticated(state, newStatus) {
         state.isAuthenticated = newStatus;
     },
@@ -32,18 +24,17 @@ const getters = {};
 
 //actions
 const actions = {
-    auth({state, commit, dispatch}, {credentials, type}) {
-        commit("setRequestPending", true)
-
-        //type - register or login
-        return authService[type](credentials)
-            .finally(() => commit("setRequestPending", false))
+    register({state, dispatch}, credentials) {
+        return authService.register(credentials)
             .then(({user}) => {
                 dispatch("authenticate", user.token)
             })
-            .catch(({data}) => {
-                commit("setErrors", normalizeErrors(data.errors))
-                throw new Error()
+    },
+
+    login({state, dispatch}, credentials) {
+        return authService.login(credentials)
+            .then(({user}) => {
+                dispatch("authenticate", user.token)
             })
     },
 
@@ -80,20 +71,13 @@ const actions = {
     },
 
     updateUser({commit, dispatch}, user) {
-        commit("setRequestPending", true)
-
         return authService.updateUser(user)
-            .finally(() => commit("setRequestPending", false))
             .then(({user}) => {
                 setToken(user.token)
                 commit("setUser", user)
                 return user;
             })
     },
-
-    init({commit}) {
-        commit("setErrors", {})
-    }
 };
 
 export default {
