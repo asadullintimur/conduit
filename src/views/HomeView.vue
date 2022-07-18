@@ -1,7 +1,8 @@
 <template>
   <div class="home-page">
 
-    <div class="banner">
+    <div class="banner"
+         v-if="!isAuthenticated">
       <div class="container">
         <h1 class="logo-font">conduit</h1>
         <p>A place to share your knowledge.</p>
@@ -13,11 +14,13 @@
         <div class="col-md-9">
           <tab-items
               :tabs="tabs"
-              @tab-clicked="tabClicked"></tab-items>
+              :active="activeTab"
+              @tab-clicked="changeActiveTab"></tab-items>
 
 
           <article-list
-              :tag="tag"></article-list>
+              :tag="tag"
+              :is-feed="isFeed"></article-list>
         </div>
 
         <div class="col-md-3">
@@ -63,11 +66,8 @@ export default {
 
   data() {
     return {
-      tabs: [{
-        name: "Global Feed",
-        active: true
-      }],
-      tag: ""
+      tag: "",
+      activeTab: 0,
     }
   },
 
@@ -77,7 +77,34 @@ export default {
       isTagsLoaded: state => state.isLoaded
     }),
 
-    ...mapState("auth", ["isAuthenticated"])
+    ...mapState("auth", ["isAuthenticated"]),
+
+    tabs() {
+      let tabs = [{
+        name: "Global Feed",
+        value: 'global'
+      }];
+
+      if (this.isAuthenticated) {
+        tabs.unshift({
+          name: "Your Feed",
+          value: 'feed'
+        })
+      }
+
+      if (this.tag) {
+        tabs.push({
+          name: `<i class="ion-pound"></i> ${this.tag}`,
+          value: 'tag'
+        })
+      }
+
+      return tabs;
+    },
+
+    isFeed() {
+      return this.tabs[this.activeTab].value === "feed"
+    }
   },
 
   methods: {
@@ -87,36 +114,30 @@ export default {
 
     filterByTag(tag) {
       this.tag = tag;
-      this.addTab(tag)
     },
 
-    addTab(name) {
-      this.resetTabs();
-      this.tabs[0].active = false;
-
-      this.tabs.push({
-        name: `<i class="ion-pound"></i> ${name}`,
-        active: true
-      })
-    },
-
-    resetTabs() {
-      this.tabs = [{
-        name: "Global Feed",
-        active: true
-      }];
-    },
-
-    tabClicked(tab) {
-      if (this.tabs.findIndex(fTab => tab.name === fTab.name) === 0) {
-        this.resetTabs()
-        this.tag = "";
+    changeActiveTab(tab) {
+      if (tab.value === "tag") {
+        return;
       }
+
+      this.activeTab = this.tabs.findIndex(fTab => fTab === tab);
+      this.tag = "";
     }
   },
 
   created() {
     this.fetchTags()
   },
+
+  watch: {
+    tabs(newTabs) {
+      let lastTab = newTabs.at(-1);
+
+      if (lastTab.value === "tag") {
+        this.activeTab = newTabs.length - 1;
+      }
+    }
+  }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="profile-page"
-  v-if="isLoaded">
+       v-if="isLoaded">
     <div class="user-info">
       <div class="container">
         <div class="row">
@@ -36,7 +36,8 @@
         <div class="col-xs-12 col-md-10 offset-md-1">
           <tab-items
               :tabs="tabs"
-              @tab-clicked="changeArticleType">
+              :active="activeTab"
+              @tab-clicked="changeActiveTab">
           </tab-items>
 
           <article-list
@@ -76,15 +77,13 @@ export default {
         {
           name: "My articles",
           value: "author",
-          active: true,
         },
         {
           name: "Favorited Articles",
           value: "favorited",
-          active: false
         }
       ],
-      filter: "author"
+      activeTab: 0
     }
   },
 
@@ -93,11 +92,8 @@ export default {
       fetchProfile: "fetch"
     }),
 
-    changeArticleType(tab) {
-      this.filter = tab.value;
-
-      this.tabs.forEach(tab => tab.active = false)
-      tab.active = true;
+    changeActiveTab(tab) {
+      this.activeTab = this.tabs.findIndex(fTab => fTab === tab);
     }
   },
 
@@ -107,7 +103,11 @@ export default {
       isLoaded: "isLoaded"
     }),
 
-    ...mapGetters("profile", ["isOwnProfile"])
+    ...mapGetters("profile", ["isOwnProfile"]),
+
+    filter() {
+      return this.tabs[this.activeTab].value;
+    }
   },
 
   created() {

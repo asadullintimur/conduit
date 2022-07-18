@@ -51,6 +51,11 @@ export default {
     perPage: {
       type: Number,
       default: 5
+    },
+
+    isFeed: {
+      type: Boolean,
+      default: false
     }
   },
 
