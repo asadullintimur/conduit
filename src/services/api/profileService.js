@@ -9,5 +9,9 @@ export default  {
 
     follow(username) {
         return apiClient.post(`${RESOURCE}/${username}/follow`)
+    },
+
+    unfollow(username) {
+        return apiClient.delete(`${RESOURCE}/${username}/follow`)
     }
 }

@@ -43,7 +43,11 @@ const actions = {
 
     follow({}, username) {
         return profileService.follow(username)
-    }
+    },
+
+    unfollow({}, username) {
+        return profileService.unfollow(username)
+    },
 };
 
 export default {

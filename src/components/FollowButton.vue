@@ -36,13 +36,16 @@ export default {
 
   methods: {
     ...mapActions("profile", {
-      profileFollow: 'follow'
+      profileFollow: 'follow',
+      profileUnfollow: 'unfollow'
     }),
 
     follow() {
       this.isRequestPending = true;
 
-      this.profileFollow(this.username)
+      (this.following ?
+          this.profileUnfollow :
+          this.profileFollow)(this.username)
           .finally(() => this.isRequestPending)
           .then(({profile}) => {
             this.following = profile.following;
