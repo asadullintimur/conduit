@@ -67,6 +67,11 @@ const actions = {
         return articlesService.unfavorite(slug)
     },
 
+    createComment({commit, dispatch}, {slug, comment}) {
+        return articlesService.createComment(slug, comment)
+            .then(() => dispatch("fetchComments", slug))
+    },
+
     reset({commit}) {
         commit("setItem", {})
         commit("setComments", [])

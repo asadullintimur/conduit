@@ -40,5 +40,13 @@ export default {
         return apiClient.get(`${RESOURCE}/feed`, {
             params
         })
+    },
+
+    createComment(slug, comment) {
+        return apiClient.post(`${RESOURCE}/${slug}/comments`, {
+            comment: {
+                body: comment
+            }
+        })
     }
 }
