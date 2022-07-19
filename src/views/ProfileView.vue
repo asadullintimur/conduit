@@ -21,12 +21,12 @@
             </router-link>
 
             <follow-button
-                :initial-following="profile.following"
+                :following="profile.following"
                 :username="profile.username"
+                @follow="follow"
                 v-else>
             </follow-button>
           </div>
-
         </div>
       </div>
     </div>
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters, mapState} from "vuex";
+import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
 import ArticleList from "@/components/ArticleList";
 import TabItems from "@/components/TabItems";
 import FollowButton from "@/components/FollowButton";
@@ -92,8 +92,14 @@ export default {
       fetchProfile: "fetch"
     }),
 
+    ...mapMutations("profile", ["setFollowing"]),
+
     changeActiveTab(tab) {
       this.activeTab = this.tabs.findIndex(fTab => fTab === tab);
+    },
+
+    follow(following) {
+      this.setFollowing(following)
     }
   },
 

@@ -25,7 +25,7 @@ export default {
       type: String
     },
 
-    initialFollowing: {
+    following: {
       required: true,
       type: Boolean
     }
@@ -34,7 +34,6 @@ export default {
   data() {
     return {
       isRequestPending: false,
-      following: this.initialFollowing
     }
   },
 
@@ -47,12 +46,14 @@ export default {
     follow() {
       this.isRequestPending = true;
 
-      (this.following ?
+      let fetchMethod = this.following ?
           this.profileUnfollow :
-          this.profileFollow)(this.username)
+          this.profileFollow;
+
+      fetchMethod(this.username)
           .finally(() => this.isRequestPending)
           .then(({profile}) => {
-            this.following = profile.following;
+            this.$emit("follow", profile.following)
           })
     }
   },

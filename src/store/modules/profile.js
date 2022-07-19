@@ -14,6 +14,10 @@ const mutations = {
 
     setIsLoaded(state, newStatus) {
         state.isLoaded = newStatus;
+    },
+
+    setFollowing(state, newFollowing) {
+        state.user.following = newFollowing;
     }
 };
 
