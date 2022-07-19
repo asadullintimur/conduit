@@ -99,7 +99,7 @@ export default {
         ...this.queryFilters,
         ...this.queryPagination
       }
-    }
+    },
   },
 
   methods: {
@@ -114,22 +114,24 @@ export default {
     }
   },
 
-  watch: {
-    queryFilters: {
-      handler(newFilters) {
-        this.resetPage()
-        this.fetchCount(newFilters)
-      },
-      immediate: true
-    },
+  created() {
+    this.$watch(() => [this.isFeed, this.queryFilters],
+        ([, newFilters]) => {
+          this.resetPage()
+          this.fetchCount({
+            params: newFilters,
+            isFeed: this.isFeed
+          })
+        }, {immediate: true})
 
-    queryParams: {
-      handler(newParams) {
-        this.fetch(newParams)
-      },
-      immediate: true
-    },
-  }
+    this.$watch(() => [this.isFeed, this.queryParams],
+        ([, newParams]) => {
+          this.fetch({
+            params: newParams,
+            isFeed: this.isFeed
+          })
+        }, {immediate: true})
+  },
 }
 </script>
 

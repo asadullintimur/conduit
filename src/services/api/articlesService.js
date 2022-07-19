@@ -34,5 +34,11 @@ export default {
 
     unfavorite(slug) {
         return apiClient.delete(`${RESOURCE}/${slug}/favorite`)
+    },
+
+    getFeed(params) {
+        return apiClient.get(`${RESOURCE}/feed`, {
+            params
+        })
     }
 }

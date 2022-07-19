@@ -31,20 +31,29 @@ const mutations = {
 
 //actions
 const actions = {
-    fetch({commit, dispatch}, params = {}) {
-        dispatch("reset")
+    fetch({commit, dispatch}, {params, isFeed}) {
+        dispatch("reset");
 
-        articlesService.get(params)
+        let fetchMethod = isFeed ?
+            articlesService.getFeed :
+            articlesService.get;
+
+        console.log(params)
+        fetchMethod(params)
             .then((data) => {
                 commit("setAll", data.articles)
                 commit("setIsLoaded", true)
             })
     },
 
-    fetchCount({commit, dispatch}, params = {}) {
-        dispatch("resetCount")
+    fetchCount({commit, dispatch}, {params, isFeed}) {
+        dispatch("resetCount");
 
-        articlesService.get(params)
+        let fetchMethod = isFeed ?
+            articlesService.getFeed :
+            articlesService.get;
+
+        fetchMethod(params)
             .then((data) => {
                 commit("setCount", data.articlesCount)
             })
@@ -57,7 +66,7 @@ const actions = {
 
     resetCount({commit}) {
         commit('setCount', 0)
-    }
+    },
 };
 
 export default {
