@@ -1,6 +1,10 @@
 <template>
-  <button class="btn btn-sm btn-outline-secondary action-btn"
-          @click="follow">
+  <button class="btn btn-sm  action-btn"
+          @click="follow"
+          :class="{
+            'btn-outline-secondary': !following,
+            'btn-secondary': following
+          }">
     <i :class="{
       'ion-plus-round': !following,
       'ion-minus-round': following,
@@ -58,7 +62,7 @@ export default {
       return this.following ?
           `Unfollow ${this.username}` :
           `Follow ${this.username}`
-    }
+    },
   }
 }
 </script>

@@ -12,7 +12,12 @@
 
   <article-item
       v-for="(article, idx) in all"
-      v-bind="article"
+      v-bind="{
+        ...article,
+        initialFavorited: article.favorited,
+        initialFavoritesCount: article.favoritesCount,
+
+      }"
       :key="idx"></article-item>
 
   <pagination-items

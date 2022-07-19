@@ -6,9 +6,7 @@
   }"
           :disabled="isRequestPending"
           @click="favorite">
-    <i class="ion-heart"></i>
     <slot></slot>
-    {{ favoritesCount }}
   </button>
 </template>
 
@@ -19,12 +17,12 @@ export default {
   name: "FavoriteButton",
 
   props: {
-    initialFavoritesCount: {
+    favoritesCount: {
       type: Number,
       required: true
     },
 
-    initialFavorited: {
+    favorited: {
       type: Boolean,
       required: true
     },
@@ -35,11 +33,11 @@ export default {
     }
   },
 
+  emits: ["favorite"],
+
   data() {
     return {
       isRequestPending: false,
-      favoritesCount: this.initialFavoritesCount,
-      favorited: this.initialFavorited
     }
   },
 
@@ -50,13 +48,16 @@ export default {
     }),
 
     favorite() {
-      (this.favorited ?
+      this.isRequestPending = true;
+
+      let fetchMethod = this.favorited ?
           this.unfavoriteArticle :
-          this.favoriteArticle)(this.slug)
+          this.favoriteArticle;
+
+      fetchMethod(this.slug)
           .finally(() => this.isRequestPending = false)
           .then(({article}) => {
-            this.favoritesCount = article.favoritesCount;
-            this.favorited = article.favorited
+            this.$emit("favorite", article)
           })
     },
   }

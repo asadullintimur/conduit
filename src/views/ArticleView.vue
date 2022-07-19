@@ -6,12 +6,8 @@
         <h1>{{ article.title }}</h1>
 
         <article-meta
-            :author="{
-          image: author.image,
-          username: author.username
-        }"
-            :created-at="article.createdAt"
-            :favorites-count="article.favoritesCount"
+            :author="author"
+            :article="article"
         ></article-meta>
       </div>
     </div>
@@ -35,12 +31,8 @@
 
       <div class="article-actions">
         <article-meta
-            :author="{
-          image: author.image,
-          username: author.username
-        }"
-            :created-at="article.createdAt"
-            :favorites-count="article.favoritesCount"
+            :author="author"
+            :article="article"
         ></article-meta>
       </div>
 

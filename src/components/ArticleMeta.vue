@@ -2,27 +2,30 @@
   <div class="article-meta">
     <article-author
         :image="author.image"
-        :created-at="createdAt"
+        :created-at="article.createdAt"
         :username="author.username"
     ></article-author>
 
-    <button class="btn btn-sm btn-outline-secondary">
-      <i class="ion-plus-round"></i>
-      &nbsp;
-      Follow Eric Simons <span class="counter">(10)</span>
-    </button>
+    <follow-button
+        :initial-following="author.following"
+        :username="author.username">
+    </follow-button>
     &nbsp;&nbsp;
-    <button class="btn btn-sm btn-outline-primary">
-      <i class="ion-heart"></i>
-      &nbsp;
-      Favorite Post <span class="counter">({{ favoritesCount }})</span>
-    </button>
+
+    <favorite-button
+        :initial-favorited="article.favorited"
+        :initial-favorites-count="article.favoritesCount"
+        :slug="article.slug">
+      Favorite Post (<template #end>)</template>
+    </favorite-button>
   </div>
 </template>
 
 <script>
 
 import ArticleAuthor from "@/components/ArticleAuthor";
+import FollowButton from "@/components/FollowButton";
+import FavoriteButton from "@/components/FavoriteButton";
 
 export default {
   name: "ArticleMeta",
@@ -33,17 +36,15 @@ export default {
       required: true,
     },
 
-    createdAt: {
-      required: true
-    },
-
-    favoritesCount: {
+    article: {
       required: true,
-      type: Number
+      type: Object
     }
   },
 
   components: {
+    FavoriteButton,
+    FollowButton,
     ArticleAuthor
   }
 }

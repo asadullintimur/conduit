@@ -8,10 +8,15 @@
       ></article-author>
 
       <favorite-button
-          :initial-favorites-count="favoritesCount"
-          :initial-favorited="favorited"
-          :slug="slug"
-      class="pull-xs-right">
+          class="pull-xs-right"
+          v-bind="{
+          favoritesCount,
+          favorited,
+          slug
+          }"
+          @favorite="favorite">
+        <i class="ion-heart"></i>
+        {{ favoritesCount }}
       </favorite-button>
     </div>
     <router-link class="preview-link"
@@ -69,7 +74,7 @@ export default {
       type: String
     },
 
-    favoritesCount: {
+    initialFavoritesCount: {
       required: true,
       type: Number
     },
@@ -84,11 +89,25 @@ export default {
       type: String,
     },
 
-    favorited: {
+    initialFavorited: {
       required: true,
       type: Boolean
     }
   },
+
+  data() {
+    return {
+      favoritesCount: this.initialFavoritesCount,
+      favorited: this.initialFavorited
+    }
+  },
+
+  methods: {
+    favorite(article) {
+      this.favoritesCount = article.favoritesCount;
+      this.favorited = article.favorited;
+    }
+  }
 }
 </script>
 
