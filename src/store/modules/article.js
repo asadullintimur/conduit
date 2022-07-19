@@ -22,6 +22,18 @@ const mutations = {
     setComments(state, newComments) {
         state.comments = newComments;
     },
+
+    setFavorited(state, newFavorited) {
+        state.item.favorited = newFavorited;
+    },
+
+    setFavoritesCount(state, newCount) {
+        state.item.favoritesCount = newCount;
+    },
+
+    setFollowing(state, newFollowing) {
+        state.item.author.following = newFollowing;
+    }
 };
 
 //actions

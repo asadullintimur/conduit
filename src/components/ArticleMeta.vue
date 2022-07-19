@@ -7,16 +7,20 @@
     ></article-author>
 
     <follow-button
-        :initial-following="author.following"
-        :username="author.username">
+        style="margin-right: 3px"
+        :following="author.following"
+        :username="author.username"
+        @follow="follow">
     </follow-button>
-    &nbsp;&nbsp;
+
 
     <favorite-button
-        :initial-favorited="article.favorited"
-        :initial-favorites-count="article.favoritesCount"
-        :slug="article.slug">
-      Favorite Post (<template #end>)</template>
+        :favorites-count="article.favoritesCount"
+        :favorited="article.favorited"
+        :slug="article.slug"
+        @favorite="favorite">
+      <i class="ion-heart"></i>
+      {{ favoriteText }}
     </favorite-button>
   </div>
 </template>
@@ -26,26 +30,44 @@
 import ArticleAuthor from "@/components/ArticleAuthor";
 import FollowButton from "@/components/FollowButton";
 import FavoriteButton from "@/components/FavoriteButton";
+import {mapMutations, mapState} from "vuex";
 
 export default {
   name: "ArticleMeta",
-
-  props: {
-    author: {
-      type: Object,
-      required: true,
-    },
-
-    article: {
-      required: true,
-      type: Object
-    }
-  },
 
   components: {
     FavoriteButton,
     FollowButton,
     ArticleAuthor
+  },
+
+  computed: {
+    ...mapState("article", {
+      article: "item"
+    }),
+
+    favoriteText() {
+      return this.article.favorited ?
+          `Unvorite Article (${this.article.favoritesCount})` :
+          `Favorite Article (${this.article.favoritesCount})`
+    },
+
+    author() {
+      return this.article.author;
+    }
+  },
+
+  methods: {
+    ...mapMutations("article", ["setFavorited", "setFavoritesCount", "setFollowing"]),
+
+    favorite(article) {
+      this.setFavorited(article.favorited)
+      this.setFavoritesCount(article.favoritesCount)
+    },
+
+    follow(following) {
+      this.setFollowing(following)
+    }
   }
 }
 </script>

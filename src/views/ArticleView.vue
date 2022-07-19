@@ -5,10 +5,7 @@
       <div class="container">
         <h1>{{ article.title }}</h1>
 
-        <article-meta
-            :author="author"
-            :article="article"
-        ></article-meta>
+        <article-meta></article-meta>
       </div>
     </div>
 
@@ -30,10 +27,7 @@
       <hr/>
 
       <div class="article-actions">
-        <article-meta
-            :author="author"
-            :article="article"
-        ></article-meta>
+        <article-meta></article-meta>
       </div>
 
       <div class="row">
@@ -76,10 +70,6 @@ export default {
       isLoaded: "isLoaded",
       comments: "comments"
     }),
-
-    author() {
-      return this.article.author
-    },
 
     body() {
       return parseMarkdown(this.article.body)
