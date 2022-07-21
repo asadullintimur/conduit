@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import {mapState, mapActions} from "vuex"
+import {mapState, mapActions, mapGetters} from "vuex"
 import ArticleMeta from "@/components/ArticleMeta"
 import ArticleComments from "@/components/ArticleComments"
 import {parseMarkdown} from "@/services/helpers";

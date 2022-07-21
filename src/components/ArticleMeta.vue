@@ -6,22 +6,33 @@
         :username="author.username"
     ></article-author>
 
-    <follow-button
-        style="margin-right: 3px"
-        :following="author.following"
-        :username="author.username"
-        @follow="follow">
-    </follow-button>
+    <template
+        v-if="isUserAuthor">
+      <edit-button
+          style="margin-right: 3px">
+      </edit-button>
 
+      <delete-button></delete-button>
+    </template>
 
-    <favorite-button
-        :favorites-count="article.favoritesCount"
-        :favorited="article.favorited"
-        :slug="article.slug"
-        @favorite="favorite">
-      <i class="ion-heart"></i>
-      {{ favoriteText }}
-    </favorite-button>
+    <template
+        v-else>
+      <follow-button
+          style="margin-right: 3px"
+          :following="author.following"
+          :username="author.username"
+          @follow="follow">
+      </follow-button>
+
+      <favorite-button
+          :favorites-count="article.favoritesCount"
+          :favorited="article.favorited"
+          :slug="article.slug"
+          @favorite="favorite">
+        <i class="ion-heart"></i>
+        {{ favoriteText }}
+      </favorite-button>
+    </template>
   </div>
 </template>
 
@@ -30,12 +41,16 @@
 import ArticleAuthor from "@/components/ArticleAuthor";
 import FollowButton from "@/components/FollowButton";
 import FavoriteButton from "@/components/FavoriteButton";
-import {mapMutations, mapState} from "vuex";
+import {mapGetters, mapMutations, mapState} from "vuex";
+import EditButton from "@/components/EditButton";
+import DeleteButton from "@/components/DeleteButton";
 
 export default {
   name: "ArticleMeta",
 
   components: {
+    DeleteButton,
+    EditButton,
     FavoriteButton,
     FollowButton,
     ArticleAuthor
@@ -46,9 +61,13 @@ export default {
       article: "item"
     }),
 
+    ...mapState("auth", ["user"]),
+
+    ...mapGetters("article", ["isUserAuthor"]),
+
     favoriteText() {
       return this.article.favorited ?
-          `Unvorite Article (${this.article.favoritesCount})` :
+          `Unfavorite Article (${this.article.favoritesCount})` :
           `Favorite Article (${this.article.favoritesCount})`
     },
 

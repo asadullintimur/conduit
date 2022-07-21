@@ -7,7 +7,15 @@ const state = () => ({
 });
 
 //getters
-const getters = {};
+const getters = {
+    slug(state) {
+        return state.item.slug;
+    },
+
+    isUserAuthor(state, getters, rootState) {
+        return state.item.author?.username === rootState.auth.user.username
+    }
+};
 
 //mutations
 const mutations = {
@@ -41,7 +49,7 @@ const actions = {
     fetch({commit, dispatch}, slug) {
         dispatch("reset")
 
-        articlesService.getSingle(slug)
+        return articlesService.getSingle(slug)
             .then(data => {
                 commit("setItem", data.article)
                 commit("setIsLoaded", true)
@@ -75,6 +83,10 @@ const actions = {
     deleteComment({dispatch}, {slug, id}) {
         return articlesService.deleteComment(slug, id)
             .then(() => dispatch("fetchComments", slug))
+    },
+
+    update({}, {slug, article}) {
+        return articlesService.update(slug, article)
     },
 
     reset({commit}) {

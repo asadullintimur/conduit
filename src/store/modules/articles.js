@@ -38,7 +38,6 @@ const actions = {
             articlesService.getFeed :
             articlesService.get;
 
-        console.log(params)
         fetchMethod(params)
             .then((data) => {
                 commit("setAll", data.articles)

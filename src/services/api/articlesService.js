@@ -52,5 +52,11 @@ export default {
 
     deleteComment(slug, id) {
         return apiClient.delete(`${RESOURCE}/${slug}/comments/${id}`)
+    },
+
+    update(slug, article) {
+        return apiClient.put(`${RESOURCE}/${slug}`, {
+            article
+        })
     }
 }

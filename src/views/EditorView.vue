@@ -1,6 +1,6 @@
 <template>
-
-  <div class="editor-page">
+  <div class="editor-page"
+       v-if="article">
     <div class="container page">
       <div class="row">
 
@@ -52,7 +52,7 @@
 
 <script>
 import TagsInput from "@/components/TagsInput";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {normalizeErrors} from "@/services/helpers";
 
 export default {
@@ -68,33 +68,47 @@ export default {
 
   data() {
     return {
-      article: {
-        title: "",
-        description: "",
-        body: "",
-        tagList: []
-      },
+      article: null,
       errors: {},
       isRequestPending: false
     }
   },
 
   computed: {
+    ...mapState("article", {
+      articleEdit: "item"
+    }),
+
+    ...mapGetters("article", ["isUserAuthor"]),
+
     tags() {
       return this.article.tagList;
-    }
+    },
+
+    isEditing() {
+      return this.slug;
+    },
+
   },
 
   methods: {
     ...mapActions("article", {
       createArticle: 'create',
+      updateArticle: 'update',
+      fetchArticle: 'fetch'
     }),
 
     publish() {
       this.isRequestPending = true;
 
-      this.createArticle(this.article)
-          .finally(() => this.isRequestPending = false)
+      let response = this.isEditing ?
+          this.updateArticle({
+            slug: this.slug,
+            article: this.article
+          }) :
+          this.createArticle(this.article);
+
+      response.finally(() => this.isRequestPending = false)
           .then(({article}) => {
             this.$router.push({
               name: 'article.show',
@@ -114,8 +128,42 @@ export default {
 
     deleteTag(tag) {
       this.article.tagList = this.tags.filter(fTag => fTag !== tag);
+    },
+
+    checkIfAuthor() {
+      if (!this.isUserAuthor) {
+        this.$router.push({
+          name: 'home'
+        })
+      }
     }
   },
+
+  async created() {
+    this.checkIfAuthor()
+
+    if (this.isEditing) {
+      await this.fetchArticle(this.slug)
+
+      let {title, description, body, tagList} = this.articleEdit;
+
+      this.article = {
+        title,
+        description,
+        body,
+        tagList
+      }
+    } else {
+      this.article = {
+        title: "",
+        description: "",
+        body: "",
+        tagList: []
+      }
+    }
+
+
+  }
 }
 </script>
 
