@@ -9,12 +9,23 @@
           :username="author.username"
           :image="author.image">
       </comment-author>
+
+      <span class="mod-options"
+            v-if="isAuthor">
+          <i class="ion-trash-a"
+             @click="deleteComment({
+              id: this.id,
+              slug: this.slug
+             }
+          )"></i>
+      </span>
     </div>
   </div>
 </template>
 
 <script>
 import CommentAuthor from "@/components/CommentAuthor";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: "ArticleComment",
@@ -38,7 +49,27 @@ export default {
     author: {
       required: true,
       type: Object
+    },
+
+    id: {
+      required: true,
+      type: Number
     }
+  },
+
+  computed: {
+    ...mapState("auth", ["user"]),
+    ...mapState("article", {
+      slug: state => state.item.slug
+    }),
+
+    isAuthor() {
+      return this.author.username === this.user?.username
+    }
+  },
+
+  methods: {
+    ...mapActions("article", ["deleteComment"])
   }
 }
 </script>

@@ -48,5 +48,9 @@ export default {
                 body: comment
             }
         })
+    },
+
+    deleteComment(slug, id) {
+        return apiClient.delete(`${RESOURCE}/${slug}/comments/${id}`)
     }
 }

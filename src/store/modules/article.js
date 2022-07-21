@@ -67,8 +67,13 @@ const actions = {
         return articlesService.unfavorite(slug)
     },
 
-    createComment({commit, dispatch}, {slug, comment}) {
+    createComment({dispatch}, {slug, comment}) {
         return articlesService.createComment(slug, comment)
+            .then(() => dispatch("fetchComments", slug))
+    },
+
+    deleteComment({dispatch}, {slug, id}) {
+        return articlesService.deleteComment(slug, id)
             .then(() => dispatch("fetchComments", slug))
     },
 
