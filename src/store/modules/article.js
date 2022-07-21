@@ -13,7 +13,7 @@ const getters = {
     },
 
     isUserAuthor(state, getters, rootState) {
-        return state.item.author?.username === rootState.auth.user.username
+        return state.item.author?.username === rootState.auth.user.username;
     }
 };
 
@@ -75,18 +75,22 @@ const actions = {
         return articlesService.unfavorite(slug)
     },
 
-    createComment({dispatch}, {slug, comment}) {
-        return articlesService.createComment(slug, comment)
-            .then(() => dispatch("fetchComments", slug))
+    createComment({dispatch, getters}, comment) {
+        return articlesService.createComment(getters.slug, comment)
+            .then(() => dispatch("fetchComments", getters.slug))
     },
 
-    deleteComment({dispatch}, {slug, id}) {
-        return articlesService.deleteComment(slug, id)
-            .then(() => dispatch("fetchComments", slug))
+    deleteComment({dispatch, getters}, id) {
+        return articlesService.deleteComment(getters.slug, id)
+            .then(() => dispatch("fetchComments", getters.slug))
     },
 
-    update({}, {slug, article}) {
-        return articlesService.update(slug, article)
+    update({getters}, article) {
+        return articlesService.update(getters.slug, article)
+    },
+
+    delete({getters}) {
+        return articlesService.delete(getters.slug)
     },
 
     reset({commit}) {

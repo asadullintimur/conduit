@@ -12,8 +12,6 @@
         :id="comment.id"
         :body="comment.body">
     </article-comment>
-
-
   </div>
 
 </template>

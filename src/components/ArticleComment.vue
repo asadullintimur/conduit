@@ -13,11 +13,7 @@
       <span class="mod-options"
             v-if="isAuthor">
           <i class="ion-trash-a"
-             @click="deleteComment({
-              id: this.id,
-              slug: this.slug
-             }
-          )"></i>
+             @click="deleteComment(this.id)"></i>
       </span>
     </div>
   </div>
@@ -59,9 +55,6 @@ export default {
 
   computed: {
     ...mapState("auth", ["user"]),
-    ...mapState("article", {
-      slug: state => state.item.slug
-    }),
 
     isAuthor() {
       return this.author.username === this.user?.username

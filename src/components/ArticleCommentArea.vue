@@ -2,13 +2,13 @@
   <form class="card comment-form">
     <div class="card-block">
       <textarea class="form-control" placeholder="Write a comment..." rows="3"
-      v-model="comment"></textarea>
+                v-model="comment"></textarea>
     </div>
     <div class="card-footer">
       <img :src="image" class="comment-author-img"/>
       <button class="btn btn-sm btn-primary"
-      @click="postComment"
-      :disabled="isRequestPending">
+              @click="postComment"
+              :disabled="isRequestPending">
         Post Comment
       </button>
     </div>
@@ -29,11 +29,7 @@ export default {
   },
 
   computed: {
-    ...mapState("article", {
-      articleSlug: state => state.item.slug
-    }),
-
-    ...mapState("profile", {
+    ...mapState("auth", {
       image: state => state.user.image
     })
   },
@@ -44,11 +40,9 @@ export default {
     postComment() {
       this.isRequestPending = true;
 
-      this.createComment({
-        slug: this.articleSlug,
-        comment: this.comment
-      }).finally(() => this.isRequestPending = false)
-      .then(() => this.comment = "")
+      this.createComment(this.comment)
+          .finally(() => this.isRequestPending = false)
+          .then(() => this.comment = "")
     }
   }
 }

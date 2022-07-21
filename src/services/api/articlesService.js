@@ -58,5 +58,9 @@ export default {
         return apiClient.put(`${RESOURCE}/${slug}`, {
             article
         })
+    },
+
+    delete(slug) {
+        return apiClient.delete(`${RESOURCE}/${slug}`)
     }
 }

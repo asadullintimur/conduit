@@ -101,14 +101,12 @@ export default {
     publish() {
       this.isRequestPending = true;
 
-      let response = this.isEditing ?
-          this.updateArticle({
-            slug: this.slug,
-            article: this.article
-          }) :
-          this.createArticle(this.article);
+      let fetchMethod = this.isEditing ?
+          this.updateArticle :
+          this.createArticle;
 
-      response.finally(() => this.isRequestPending = false)
+      fetchMethod(this.article)
+          .finally(() => this.isRequestPending = false)
           .then(({article}) => {
             this.$router.push({
               name: 'article.show',
@@ -140,9 +138,8 @@ export default {
   },
 
   async created() {
-    this.checkIfAuthor()
-
     if (this.isEditing) {
+      this.checkIfAuthor()
       await this.fetchArticle(this.slug)
 
       let {title, description, body, tagList} = this.articleEdit;
