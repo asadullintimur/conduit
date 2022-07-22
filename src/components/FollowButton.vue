@@ -15,6 +15,7 @@
 
 <script>
 import {mapActions} from "vuex";
+import {redirectIfNotAuth} from "@/services/helpers";
 
 export default {
   name: "FollowButton",
@@ -44,6 +45,7 @@ export default {
     }),
 
     follow() {
+      redirectIfNotAuth()
       this.isRequestPending = true;
 
       let fetchMethod = this.following ?

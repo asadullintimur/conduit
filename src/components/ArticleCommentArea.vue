@@ -1,5 +1,6 @@
 <template>
-  <form class="card comment-form">
+  <form class="card comment-form"
+        v-if="isAuthenticated">
     <div class="card-block">
       <textarea class="form-control" placeholder="Write a comment..." rows="3"
                 v-model="comment"></textarea>
@@ -13,6 +14,19 @@
       </button>
     </div>
   </form>
+
+  <p v-else>
+    <router-link :to="{
+      name: 'login'
+    }">Sign in
+    </router-link>
+    or
+    <router-link :to="{
+      name: 'register'
+    }">sign up
+    </router-link>
+    to add comments on this article.
+  </p>
 </template>
 
 <script>
@@ -30,7 +44,8 @@ export default {
 
   computed: {
     ...mapState("auth", {
-      image: state => state.user.image
+      image: state => state.user.image,
+      isAuthenticated: 'isAuthenticated'
     })
   },
 

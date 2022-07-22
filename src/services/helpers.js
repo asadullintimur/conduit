@@ -1,4 +1,6 @@
 import {parse} from "marked";
+import router from "@/router";
+import store from "@/store";
 
 function formatDate(strDate) {
     let date = new Date(Date.parse(strDate));
@@ -15,8 +17,17 @@ function parseMarkdown(data) {
     return parse(data)
 }
 
+function redirectIfNotAuth() {
+    if (!store.state.auth.isAuthenticated) {
+        router.push({
+            name: 'register'
+        })
+    }
+}
+
 export {
     formatDate,
     normalizeErrors,
-    parseMarkdown
+    parseMarkdown,
+    redirectIfNotAuth
 }

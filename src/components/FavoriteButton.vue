@@ -11,7 +11,8 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapState} from "vuex";
+import {redirectIfNotAuth} from "@/services/helpers";
 
 export default {
   name: "FavoriteButton",
@@ -48,6 +49,7 @@ export default {
     }),
 
     favorite() {
+      redirectIfNotAuth();
       this.isRequestPending = true;
 
       let fetchMethod = this.favorited ?
@@ -60,6 +62,10 @@ export default {
             this.$emit("favorite", article)
           })
     },
+  },
+
+  computed: {
+    ...mapState("auth", ["isAuthenticated"])
   }
 }
 </script>
